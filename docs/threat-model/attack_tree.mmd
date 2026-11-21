@@ -1,0 +1,28 @@
+%% Дерево атак для найкритичнішої загрози T1/T5: віддалене виконання коду (RCE) на сервері DVWA.
+%% OR — достатньо однієї гілки; AND — потрібні всі дочірні умови.
+flowchart TD
+    G["Мета: виконати довільний PHP-код від www-data (T1, T5) — OR"]
+    G --> A1["A1. Завантажити .php у web root і звернутися до нього — AND"]
+    G --> A2["A2. Завантажити зображення-поліглот і включити його через LFI — AND"]
+    G --> A3["A3. Завантажити .htaccess, що робить .jpg виконуваним — AND"]
+    G --> A4["A4. Отруєння журналу / сесії + LFI — AND"]
+
+    A1 --> A1a["Пройти фільтр — OR"]
+    A1a --> A1a1["low: перевірки немає ✔"]
+    A1a --> A1a2["medium: підробити Content-Type image/jpeg ✔"]
+    A1a --> A1a3["high: розширення .php відхиляється ✘"]
+    A1 --> A1b["Файл доступний за /hackable/uploads/&lt;ім'я&gt; ✔"]
+    A1 --> A1c["Apache виконує .php у uploads ✔"]
+
+    A2 --> A2a["Пройти getimagesize(): заголовок GIF89a / PNG ✔ (усі рівні)"]
+    A2 --> A2b["Включити файл — OR"]
+    A2b --> A2b1["low: ?page=../../hackable/uploads/x.jpg ✔"]
+    A2b --> A2b2["medium: ....// обходить str_replace ✔"]
+    A2b --> A2b3["high: file:///var/www/html/hackable/uploads/x.jpg ✔"]
+
+    A3 --> A3a["Завантажити файл .htaccess (low ✔, medium з Content-Type ✔, high ✘)"]
+    A3 --> A3b["AllowOverride All у docker-php.conf ✔"]
+    A3 --> A3c["Завантажити x.jpg із PHP-кодом ✔"]
+
+    A4 --> A4a["Журнал Apache — це stdout контейнера, файлу немає ✘"]
+    A4 --> A4b["Файл сесії /tmp/sess_* містить лише службові поля ✘"]

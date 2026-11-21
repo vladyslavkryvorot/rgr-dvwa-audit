@@ -1,0 +1,17 @@
+id,element,stride,threat,cvss_vector,cvss_base,severity,likelihood,impact,rank,decision,countermeasure,residual,in_profile
+T1,P2.2/F4,E,RCE через завантаження .php,CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H,9.9,Critical,3,3,9,усунути,allowlist розширень + finfo + перекодування GD + випадкове ім'я + engine off у uploads,низький,так
+T2,F3,S/T,Обхід перевірки через підробку Content-Type,CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H,9.9,Critical,3,3,9,усунути,серверне визначення типу (finfo) замість $_FILES[type],низький,так
+T3,P2.2/D2,E/T,Завантаження .htaccess у uploads,CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:H/A:H,9.9,Critical,2,3,6,усунути,allowlist розширень + AllowOverride None для uploads,низький,так
+T4,P2.3/F6,I,Обхід каталогів у параметрі page,CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:N/A:N,7.7,High,3,2,6,усунути,allowlist + realpath і перевірка префікса,низький,так
+T5,P2.3/F6',E,LFI завантаженого поліглота,CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:C/C:H/I:H/A:H,8.5,High,2,3,6,усунути,SafePath + перекодування зображень,низький,так
+T6,P2.3/D3,I,Обгортки php:// і file:// в include,CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:C/C:H/I:N/A:N,7.7,High,3,2,6,усунути,заборона схем + allow_url_include=Off + open_basedir,низький,так
+T7,P2.2/D2,T,Перезапис файлу з тим самим ім'ям,CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:L/A:N,4.3,Medium,2,1,2,зменшити,випадкове ім'я (random_bytes),низький,так
+T8,P2.2/D2,D,Вичерпання диска завантаженнями,CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:L,4.3,Medium,1,2,2,зменшити,ліміт розміру; квоти — рекомендація,середній,так
+T9,F11,I,Розкриття внутрішніх шляхів у відповідях,CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N,4.3,Medium,3,1,3,усунути,відповідь без шляху; display_errors=Off,низький,так
+T10,P2.1,S,Дефолтні облікові дані admin/password,CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N,9.1,Critical,3,3,9,прийняти,рекомендація: змінити пароль і блокування,високий,ні
+T11,F1,I/S,HTTP без TLS; cookie без Secure/HttpOnly,CVSS:3.1/AV:A/AC:H/PR:N/UI:R/S:U/C:H/I:L/A:N,5.4,Medium,1,2,2,передати,TLS на проксі; прапорці cookie,низький,ні
+T12,P2.1/F1,T,Клієнтська cookie security визначає рівень захисту,CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:N,5.4,Medium,3,2,6,зменшити,виправлення діють на всіх рівнях,низький,так
+T13,P2.2/P2.3/D4,R,Немає журналу завантажень і включень,CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:L/A:N,4.3,Medium,2,1,2,зменшити,error_log подій безпеки,середній,так
+T14,P2.4/D1,E/D,setup.php без автентифікації скидає БД,CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:H,9.1,Critical,2,3,6,прийняти,рекомендація: вимкнути setup.php,високий,ні
+T15,D1,I,MD5 без солі для паролів,CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:U/C:H/I:N/A:N,4.4,Medium,1,2,2,прийняти,рекомендація: password_hash Argon2id,середній,ні
+T16,D2/D3,E,Web root доступний на запис для www-data,CVSS:3.1/AV:L/AC:L/PR:H/UI:N/S:U/C:H/I:H/A:N,6.0,Medium,2,2,4,зменшити,root:root 755 для коду; запис лише в uploads,низький,так

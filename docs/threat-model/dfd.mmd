@@ -1,0 +1,40 @@
+%% DFD рівня 1 стенда DVWA (варіант 8). Нотація — шаблон lab01_threat_model/templates/dfd.mmd курсу.
+flowchart LR
+    U([E1. Користувач / браузер]):::ext
+    A([E2. Зловмисник — автентифікований користувач]):::ext
+
+    subgraph TB0[TB1 · Межа довіри: хост ↔ стенд, 127.0.0.1]
+        P1[P1. Зворотний проксі nginx]
+        subgraph TB2[TB2 · Внутрішня мережа backend, internal: true]
+            subgraph APP[P2. Apache + PHP — DVWA]
+                P21[P2.1 Автентифікація, сесії, рівень безпеки]
+                P22[P2.2 Модуль File Upload]
+                P23[P2.3 Модуль File Inclusion]
+                P24[P2.4 setup.php]
+            end
+            subgraph TB3[TB3 · Межа: застосунок ↔ файлова система]
+                D2[(D2. hackable/uploads — у web root)]
+                D3[(D3. ФС сервера: код, config.inc.php, /etc)]
+            end
+            subgraph TB4[TB4 · Межа: застосунок ↔ БД]
+                D1[(D1. MariaDB: users, guestbook)]
+            end
+            D4[(D4. Журнали Apache → stdout контейнера)]
+        end
+    end
+
+    U -->|F1. HTTP-запит, cookie PHPSESSID, security| P1
+    A -->|F1. HTTP-запит| P1
+    P1 -->|F2. проксований HTTP| P21
+    P21 -->|F3. multipart/form-data: uploaded| P22
+    P22 -->|F4. move_uploaded_file| D2
+    P21 -->|F5. GET ?page=| P23
+    P23 -->|F6. include файлу| D3
+    P23 -->|F6'. include завантаженого файлу| D2
+    P21 -->|F7. SQL: облікові дані, MD5| D1
+    P24 -->|F8. DROP/CREATE схеми| D1
+    APP -->|F9. записи журналу| D4
+    D2 -->|F10. статичний файл / виконання .php| P1
+    P1 -->|F11. HTTP-відповідь, шляхи, помилки| U
+
+    classDef ext fill:#eee,stroke:#333;
