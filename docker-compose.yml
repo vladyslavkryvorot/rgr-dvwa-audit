@@ -1,0 +1,66 @@
+# Ізольований стенд РГР (варіант 8: DVWA — завантаження файлів і обхід каталогів).
+#
+# УВАГА. Служба dvwa — НАВМИСНО ВРАЗЛИВИЙ застосунок.
+#  * dvwa і db підключено лише до мережі backend (internal: true) — маршруту назовні немає;
+#  * єдиний опублікований порт — проксі на петльовому інтерфейсі 127.0.0.1:8080;
+#  * не змінюйте прив'язку адреси й не розгортайте стенд на віддалених вузлах
+#    (ст. 361–363-1 КК України).
+name: rgr-dvwa
+
+services:
+  dvwa:
+    build:
+      context: .
+      dockerfile: docker/dvwa/Dockerfile
+    image: rgr-dvwa/dvwa:local
+    container_name: rgr-dvwa
+    environment:
+      DB_SERVER: db
+      DB_DATABASE: dvwa
+      DB_USER: dvwa
+      DB_PASSWORD: ${DVWA_DB_PASSWORD:-p@ssw0rd}
+      DEFAULT_SECURITY_LEVEL: ${DVWA_SECURITY_LEVEL:-low}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks: [backend]
+    restart: "no"
+
+  db:
+    image: docker.io/library/mariadb:11.4
+    container_name: rgr-dvwa-db
+    environment:
+      MARIADB_ROOT_PASSWORD: ${DVWA_DB_ROOT_PASSWORD:-dvwa-root}
+      MARIADB_DATABASE: dvwa
+      MARIADB_USER: dvwa
+      MARIADB_PASSWORD: ${DVWA_DB_PASSWORD:-p@ssw0rd}
+    volumes:
+      - dbdata:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    networks: [backend]
+    restart: "no"
+
+  proxy:
+    image: docker.io/library/nginx:1.27-alpine
+    container_name: rgr-dvwa-proxy
+    volumes:
+      - ./docker/proxy/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "127.0.0.1:${DVWA_PORT:-8080}:80"
+    depends_on:
+      dvwa:
+        condition: service_healthy
+    networks: [frontend, backend]
+    restart: "no"
+
+networks:
+  backend:
+    internal: true    # немає маршруту до зовнішньої мережі
+  frontend: {}
+
+volumes:
+  dbdata:

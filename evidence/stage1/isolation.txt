@@ -1,0 +1,15 @@
+# Перевірка ізоляції стенда (2026-11-21T13:15:30Z)
+$ docker inspect rgr-dvwa --format networks
+rgr-dvwa_backend 
+$ docker network inspect rgr-dvwa_backend --format internal
+Internal=true
+$ docker exec rgr-dvwa php -r file_get_contents("http://example.com")
+bool(false)
+$ docker exec rgr-dvwa ping -c1 -W2 1.1.1.1
+ping: connect: Network is unreachable
+$ docker exec rgr-dvwa-db getent hosts example.com
+DNS: не розв'язується (exit 2)
+$ docker compose ps
+rgr-dvwa  80/tcp
+rgr-dvwa-db  3306/tcp
+rgr-dvwa-proxy  127.0.0.1:8081->80/tcp
