@@ -1,0 +1,28 @@
+# Quality gate варіанта 8 (нові знахідки відносно базової лінії): код «до» і «після»
+
+$ git checkout rgr-before   # код до виправлень
+$ python3 tools/gate.py reports/semgrep-custom.json
+Проскановано файлів: 169
+Знахідок усього: 15, у базовій лінії: 2, нових: 13
+::error file=dvwa/vulnerabilities/fi/index.php,line=36::rgr-v8-include-dynamic-path: include/require з динамічним (не літеральним) шляхом. Перевірте, що значення не залежить від даних користувача (CWE-98).
+::error file=dvwa/vulnerabilities/fi/source/high.php,line=4::rgr-v8-include-request-param: Параметр запиту використовується як шлях до файлу для include/require без канонізації (CWE-98, CWE-22). Застосовуйте allowlist або realpath() з перевіркою базов
+::error file=dvwa/vulnerabilities/fi/source/high.php,line=7::rgr-v8-fnmatch-path-allowlist: Перевірка шляху шаблоном fnmatch("file*") пропускає обгортку file:///… і довільний абсолютний шлях (CWE-22). Порівнюйте з точним allowlist імен.
+::error file=dvwa/vulnerabilities/fi/source/low.php,line=4::rgr-v8-include-request-param: Параметр запиту використовується як шлях до файлу для include/require без канонізації (CWE-98, CWE-22). Застосовуйте allowlist або realpath() з перевіркою базов
+::error file=dvwa/vulnerabilities/fi/source/medium.php,line=4::rgr-v8-include-request-param: Параметр запиту використовується як шлях до файлу для include/require без канонізації (CWE-98, CWE-22). Застосовуйте allowlist або realpath() з перевіркою базов
+::error file=dvwa/vulnerabilities/fi/source/medium.php,line=8::rgr-v8-path-filter-str-replace: Фільтрація обходу каталогів через str_replace("../", ...) неповна: «....//» після заміни перетворюється на «../», а абсолютні шляхи взагалі не фільтруються (CWE
+::error file=dvwa/vulnerabilities/upload/source/high.php,line=20::rgr-v8-upload-client-filename: Шлях призначення для move_uploaded_file() будується з імені файлу, яке надіслав клієнт ($_FILES[...]['name']). Розширення, і зокрема .php та .htaccess, контролю
+::error file=dvwa/vulnerabilities/upload/source/high.php,line=26::rgr-v8-response-discloses-path: У HTML-відповідь потрапляє внутрішній шлях збереження файлу (CWE-209). Повідомляйте користувачу лише публічний ідентифікатор.
+::error file=dvwa/vulnerabilities/upload/source/low.php,line=9::rgr-v8-upload-client-filename: Шлях призначення для move_uploaded_file() будується з імені файлу, яке надіслав клієнт ($_FILES[...]['name']). Розширення, і зокрема .php та .htaccess, контролю
+::error file=dvwa/vulnerabilities/upload/source/low.php,line=15::rgr-v8-response-discloses-path: У HTML-відповідь потрапляє внутрішній шлях збереження файлу (CWE-209). Повідомляйте користувачу лише публічний ідентифікатор.
+::error file=dvwa/vulnerabilities/upload/source/medium.php,line=10::rgr-v8-upload-trusts-client-mime: Тип файлу береться з $_FILES[...]['type'], тобто із заголовка Content-Type, який задає клієнт. Порушник легко його підробляє (CWE-345, CWE-434). Визначайте тип 
+::error file=dvwa/vulnerabilities/upload/source/medium.php,line=18::rgr-v8-upload-client-filename: Шлях призначення для move_uploaded_file() будується з імені файлу, яке надіслав клієнт ($_FILES[...]['name']). Розширення, і зокрема .php та .htaccess, контролю
+::error file=dvwa/vulnerabilities/upload/source/medium.php,line=24::rgr-v8-response-discloses-path: У HTML-відповідь потрапляє внутрішній шлях збереження файлу (CWE-209). Повідомляйте користувачу лише публічний ідентифікатор.
+::error::Quality gate: 13 нових знахідок відносно базової лінії — складання заблоковано
+код завершення: 1
+
+$ git checkout main   # код після виправлень
+$ python3 tools/gate.py scans/after/semgrep-custom.json
+Проскановано файлів: 171
+Знахідок усього: 2, у базовій лінії: 2, нових: 0
+Quality gate: пройдено
+код завершення: 0

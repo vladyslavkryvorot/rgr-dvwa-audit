@@ -51,6 +51,13 @@ def main(argv=None) -> int:
     if report.get("errors"):
         print(f"::error::Quality gate: Semgrep повідомив про {len(report['errors'])} помилок — fail closed")
         return 1
+    scanned = (report.get("paths") or {}).get("scanned") or []
+    if not scanned:
+        # Порожній звіт без помилок теж є збоєм (наприклад, Semgrep не зміг прочитати git-дерево
+        # і нічого не просканував). Fail closed: «0 знахідок у 0 файлах» не означає «безпечно».
+        print("::error::Quality gate: Semgrep не просканував жодного файлу — складання заблоковано")
+        return 1
+    print(f"Проскановано файлів: {len(scanned)}")
     current = {fingerprint(r): r for r in report["results"]}
 
     if args.update:
