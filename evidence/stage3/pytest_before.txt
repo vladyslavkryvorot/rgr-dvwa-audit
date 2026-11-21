@@ -1,0 +1,138 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.14.6, pytest-9.2.0, pluggy-1.7.0
+rootdir: /Users/coibelevin/PhpstormProjects/rgr-dvwa-audit
+configfile: pytest.ini
+testpaths: tests/regression
+collected 9 items
+
+tests/regression/test_vulns_fixed.py FFFFFFFFF                           [100%]
+
+=================================== FAILURES ===================================
+__________________ test_vulnerability_is_not_exploitable[V1] ___________________
+
+scenario = <function v1_upload_php_low at 0x109671fe0>
+
+    @pytest.mark.parametrize("scenario", poc.ALL, ids=lambda f: f.__name__.split("_")[0].upper())
+    def test_vulnerability_is_not_exploitable(scenario):
+        result = scenario(None)
+>       assert not result.exploited, f"{result.vid} ({result.level}): {result.title} — {result.detail}"
+E       AssertionError: V1 (low): Необмежене завантаження .php → RCE — RGR-V8-1337 id: uid=33(www-data) gid=33(www-data) groups=33(www-data)
+E       assert not True
+E        +  where True = Result(vid='V1', title='Необмежене завантаження .php → RCE', level='low', exploited=True, detail='RGR-V8-1337 id: uid=...ata)', exchanges=[(<Response [200]>, 'Завантаження веб-шелу'), (<Response [200]>, 'Звернення до завантаженого файлу')]).exploited
+
+tests/regression/test_vulns_fixed.py:15: AssertionError
+__________________ test_vulnerability_is_not_exploitable[V2] ___________________
+
+scenario = <function v2_upload_php_medium at 0x109672140>
+
+    @pytest.mark.parametrize("scenario", poc.ALL, ids=lambda f: f.__name__.split("_")[0].upper())
+    def test_vulnerability_is_not_exploitable(scenario):
+        result = scenario(None)
+>       assert not result.exploited, f"{result.vid} ({result.level}): {result.title} — {result.detail}"
+E       AssertionError: V2 (medium): Обхід перевірки Content-Type → RCE — RGR-V8-1337 id: uid=33(www-data) gid=33(www-data) groups=33(www-data)
+E       assert not True
+E        +  where True = Result(vid='V2', title='Обхід перевірки Content-Type → RCE', level='medium', exploited=True, detail='RGR-V8-1337 id: u...hanges=[(<Response [200]>, 'Завантаження .php із Content-Type: image/jpeg'), (<Response [200]>, 'Звернення до файлу')]).exploited
+
+tests/regression/test_vulns_fixed.py:15: AssertionError
+__________________ test_vulnerability_is_not_exploitable[V3] ___________________
+
+scenario = <function v3_polyglot_lfi_high at 0x1096722a0>
+
+    @pytest.mark.parametrize("scenario", poc.ALL, ids=lambda f: f.__name__.split("_")[0].upper())
+    def test_vulnerability_is_not_exploitable(scenario):
+        result = scenario(None)
+>       assert not result.exploited, f"{result.vid} ({result.level}): {result.title} — {result.detail}"
+E       AssertionError: V3 (high): Поліглот GIF+PHP (.jpg) + LFI через file:// → RCE — маркер у відповіді включення
+E       assert not True
+E        +  where True = Result(vid='V3', title='Поліглот GIF+PHP (.jpg) + LFI через file:// → RCE', level='high', exploited=True, detail='марк...', exchanges=[(<Response [200]>, 'Завантаження поліглота .jpg'), (<Response [200]>, 'Включення через ?page=file://…')]).exploited
+
+tests/regression/test_vulns_fixed.py:15: AssertionError
+__________________ test_vulnerability_is_not_exploitable[V4] ___________________
+
+scenario = <function v4_traversal_low at 0x1096726c0>
+
+    @pytest.mark.parametrize("scenario", poc.ALL, ids=lambda f: f.__name__.split("_")[0].upper())
+    def test_vulnerability_is_not_exploitable(scenario):
+        result = scenario(None)
+>       assert not result.exploited, f"{result.vid} ({result.level}): {result.title} — {result.detail}"
+E       AssertionError: V4 (low): Обхід каталогів ../ у параметрі page — вміст /etc/passwd у відповіді
+E       assert not True
+E        +  where True = Result(vid='V4', title='Обхід каталогів ../ у параметрі page', level='low', exploited=True, detail='вміст /etc/passwd у відповіді', exchanges=[(<Response [200]>, 'GET ?page=../../../../../../etc/passwd')]).exploited
+
+tests/regression/test_vulns_fixed.py:15: AssertionError
+__________________ test_vulnerability_is_not_exploitable[V5] ___________________
+
+scenario = <function v5_traversal_medium at 0x109672820>
+
+    @pytest.mark.parametrize("scenario", poc.ALL, ids=lambda f: f.__name__.split("_")[0].upper())
+    def test_vulnerability_is_not_exploitable(scenario):
+        result = scenario(None)
+>       assert not result.exploited, f"{result.vid} ({result.level}): {result.title} — {result.detail}"
+E       AssertionError: V5 (medium): Обхід фільтра str_replace через ....// — вміст /etc/passwd у відповіді
+E       assert not True
+E        +  where True = Result(vid='V5', title='Обхід фільтра str_replace через ....//', level='medium', exploited=True, detail='вміст /etc/passwd у відповіді', exchanges=[(<Response [200]>, 'GET ?page=....//....//....//....//....//....//etc/passwd')]).exploited
+
+tests/regression/test_vulns_fixed.py:15: AssertionError
+__________________ test_vulnerability_is_not_exploitable[V6] ___________________
+
+scenario = <function v6_wrapper_high at 0x109672980>
+
+    @pytest.mark.parametrize("scenario", poc.ALL, ids=lambda f: f.__name__.split("_")[0].upper())
+    def test_vulnerability_is_not_exploitable(scenario):
+        result = scenario(None)
+>       assert not result.exploited, f"{result.vid} ({result.level}): {result.title} — {result.detail}"
+E       AssertionError: V6 (high): Обхід fnmatch('file*') через file:// — вміст /etc/passwd у відповіді
+E       assert not True
+E        +  where True = Result(vid='V6', title="Обхід fnmatch('file*') через file://", level='high', exploited=True, detail='вміст /etc/passwd у відповіді', exchanges=[(<Response [200]>, 'GET ?page=file:///etc/passwd')]).exploited
+
+tests/regression/test_vulns_fixed.py:15: AssertionError
+__________________ test_vulnerability_is_not_exploitable[V7] ___________________
+
+scenario = <function v7_htaccess_handler at 0x109672400>
+
+    @pytest.mark.parametrize("scenario", poc.ALL, ids=lambda f: f.__name__.split("_")[0].upper())
+    def test_vulnerability_is_not_exploitable(scenario):
+        result = scenario(None)
+>       assert not result.exploited, f"{result.vid} ({result.level}): {result.title} — {result.detail}"
+E       AssertionError: V7 (medium): .htaccess у каталозі завантажень змінює обробник → RCE — RGR-V8-1337 id: uid=33(www-data) gid=33(www-data) groups=33(www-data)
+E       assert not True
+E        +  where True = Result(vid='V7', title='.htaccess у каталозі завантажень змінює обробник → RCE', level='medium', exploited=True, detai...[200]>, 'Завантаження .htaccess'), (<Response [200]>, 'Завантаження файлу .rgrdcac'), (<Response [200]>, 'Виконання')]).exploited
+
+tests/regression/test_vulns_fixed.py:15: AssertionError
+__________________ test_vulnerability_is_not_exploitable[V8] ___________________
+
+scenario = <function v8_view_source_traversal at 0x109672ae0>
+
+    @pytest.mark.parametrize("scenario", poc.ALL, ids=lambda f: f.__name__.split("_")[0].upper())
+    def test_vulnerability_is_not_exploitable(scenario):
+        result = scenario(None)
+>       assert not result.exploited, f"{result.vid} ({result.level}): {result.title} — {result.detail}"
+E       AssertionError: V8 (impossible): Обхід каталогів у view_source.php → код config.inc.php (пароль БД) — вихідний код конфігурації з паролем БД
+E       assert not True
+E        +  where True = Result(vid='V8', title='Обхід каталогів у view_source.php → код config.inc.php (пароль БД)', level='impossible', explo...гурації з паролем БД', exchanges=[(<Response [200]>, 'GET view_source.php?id=fi&security=../../../config/config.inc')]).exploited
+
+tests/regression/test_vulns_fixed.py:15: AssertionError
+__________________ test_vulnerability_is_not_exploitable[V9] ___________________
+
+scenario = <function v9_view_help_eval at 0x109672c40>
+
+    @pytest.mark.parametrize("scenario", poc.ALL, ids=lambda f: f.__name__.split("_")[0].upper())
+    def test_vulnerability_is_not_exploitable(scenario):
+        result = scenario(None)
+>       assert not result.exploited, f"{result.vid} ({result.level}): {result.title} — {result.detail}"
+E       AssertionError: V9 (impossible): Обхід каталогів у view_help.php → eval() довільного .php — виконано phpinfo.php через eval()
+E       assert not True
+E        +  where True = Result(vid='V9', title='Обхід каталогів у view_help.php → eval() довільного .php', level='impossible', exploited=True,...php через eval()', exchanges=[(<Response [200]>, 'GET view_help.php?id=fi&security=low&locale=x/../../../../phpinfo')]).exploited
+
+tests/regression/test_vulns_fixed.py:15: AssertionError
+=========================== short test summary info ============================
+FAILED tests/regression/test_vulns_fixed.py::test_vulnerability_is_not_exploitable[V1]
+FAILED tests/regression/test_vulns_fixed.py::test_vulnerability_is_not_exploitable[V2]
+FAILED tests/regression/test_vulns_fixed.py::test_vulnerability_is_not_exploitable[V3]
+FAILED tests/regression/test_vulns_fixed.py::test_vulnerability_is_not_exploitable[V4]
+FAILED tests/regression/test_vulns_fixed.py::test_vulnerability_is_not_exploitable[V5]
+FAILED tests/regression/test_vulns_fixed.py::test_vulnerability_is_not_exploitable[V6]
+FAILED tests/regression/test_vulns_fixed.py::test_vulnerability_is_not_exploitable[V7]
+FAILED tests/regression/test_vulns_fixed.py::test_vulnerability_is_not_exploitable[V8]
+FAILED tests/regression/test_vulns_fixed.py::test_vulnerability_is_not_exploitable[V9]
+============================== 9 failed in 0.13s ===============================

