@@ -1,0 +1,13 @@
+# Конфігурація gitleaks РГР: типові правила + обґрунтовані винятки за результатами тріажу
+# (docs/triage/triage.md, розд. 5).
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "G1 (FP): приклад CSRF-токена в навчальній довідці модуля CSRF, не секрет"
+paths = ['''dvwa/vulnerabilities/csrf/help/help\.php''']
+regexes = ['''user-token: [0-9a-f]{32}''']
+
+[[allowlists]]
+description = "Звіти сканерів (scans/): шістнадцяткові ідентифікатори у JSON Trivy/SBOM хибно розпізнаються як токени"
+paths = ['''^scans/''']

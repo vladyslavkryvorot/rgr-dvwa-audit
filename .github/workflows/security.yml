@@ -1,0 +1,116 @@
+# Конвеєр контролю захищеності РГР (варіант 8). Основа — lab06_cicd/.github/workflows/security.yml курсу.
+# Quality gate варіанта 8: блокувати за появи нових знахідок відносно базової лінії (tools/baseline.json).
+name: security
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read   # мінімальні права токена
+
+env:
+  SEMGREP_IMG: semgrep/semgrep:1.140.0
+  TRIVY_IMG: aquasec/trivy:0.67.2
+  GITLEAKS_IMG: zricethezav/gitleaks:v8.28.0
+
+jobs:
+  sast:
+    name: Статичний аналіз (SAST) + quality gate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Semgrep — власні правила варіанта 8
+        run: |
+          mkdir -p reports
+          docker run --rm -v "$PWD:/src" -w /src "$SEMGREP_IMG" semgrep scan --metrics=off --quiet \
+            --config tools/semgrep-rules/ --exclude vendor --json --output reports/semgrep-custom.json dvwa || true
+      - name: Semgrep — реєстр (p/php, p/owasp-top-ten), інформативно
+        run: |
+          docker run --rm -v "$PWD:/src" -w /src "$SEMGREP_IMG" semgrep scan --metrics=off --quiet \
+            --config p/php --config p/owasp-top-ten --exclude vendor --json --output reports/semgrep.json dvwa || true
+      - name: Quality gate (нові знахідки відносно базової лінії)
+        run: python3 tools/gate.py reports/semgrep-custom.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sast-reports
+          path: reports/
+
+  sca:
+    name: Аналіз складу ПЗ (SCA) та SBOM
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Збирання образу стенда
+        run: docker compose build dvwa
+      - name: Trivy — залежності й образ
+        run: |
+          mkdir -p reports
+          docker run --rm -v "$PWD:/src:ro" "$TRIVY_IMG" fs --quiet --scanners vuln \
+            --format json --output /dev/stdout /src/dvwa > reports/trivy-fs.json
+          docker save rgr-dvwa/dvwa:local -o image.tar
+          docker run --rm -v "$PWD/image.tar:/image.tar:ro" "$TRIVY_IMG" image --quiet --scanners vuln \
+            --input /image.tar --format json --output /dev/stdout > reports/trivy-image.json
+          docker run --rm -v "$PWD/image.tar:/image.tar:ro" "$TRIVY_IMG" image --quiet \
+            --input /image.tar --format cyclonedx --output /dev/stdout > reports/sbom.cdx.json
+      - name: Критерій SCA — немає вразливостей, для яких є виправлення
+        run: |
+          python3 - <<'EOF'
+          import json, sys
+          rep = json.load(open("reports/trivy-image.json"))
+          fixable = [v for r in rep.get("Results", []) for v in (r.get("Vulnerabilities") or []) if v.get("FixedVersion")]
+          print(f"CVE з доступним виправленням: {len(fixable)}")
+          for v in fixable[:20]:
+              print(f"::error::{v['VulnerabilityID']} {v['PkgName']} {v['InstalledVersion']} -> {v['FixedVersion']}")
+          sys.exit(1 if fixable else 0)
+          EOF
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sca-reports
+          path: reports/
+
+  secrets:
+    name: Сканування секретів
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: gitleaks (історія git)
+        run: |
+          docker run --rm -v "$PWD:/repo" -w /repo "$GITLEAKS_IMG" git /repo \
+            --config /repo/.gitleaks.toml --redact --no-banner --exit-code 1
+
+  tests:
+    name: Регресійні та модульні тести на стенді
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Підняття ізольованого стенда
+        run: |
+          docker compose up -d --build --wait
+          docker compose ps
+      - name: Залежності тестів
+        run: pip install -r requirements-dev.txt
+      - name: Регресійні тести V1–V9 і функціональні тести (pytest)
+        run: python -m pytest -v
+        env:
+          DVWA_URL: http://127.0.0.1:8080
+      - name: Модульні тести SafePath / SafeUpload (PHPUnit)
+        run: |
+          docker run --rm -v "$PWD:/app" -w /app rgr-dvwa/dvwa:local \
+            sh -c 'php -d open_basedir= /usr/local/bin/composer install --no-interaction --no-progress -q \
+                   && php -d open_basedir= vendor/bin/phpunit --testdox'
+      - name: Шари глибокого захисту
+        run: |
+          DVWA_URL=http://127.0.0.1:8080 tools/check_hardening.sh | tee hardening.txt
+          ! grep -q '^FAIL' hardening.txt
+      - name: Зупинення стенда
+        if: always()
+        run: docker compose down -v
