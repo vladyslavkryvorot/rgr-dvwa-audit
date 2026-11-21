@@ -1,0 +1,22 @@
+[
+ {
+  "RuleID": "generic-api-key",
+  "Description": "Detected a Generic API Key, potentially exposing access to various services and sensitive operations.",
+  "StartLine": 54,
+  "EndLine": 54,
+  "StartColumn": 2,
+  "EndColumn": 45,
+  "Match": "user-token: REDACTED",
+  "Secret": "REDACTED",
+  "File": "dvwa/vulnerabilities/csrf/help/help.php",
+  "SymlinkFile": "",
+  "Commit": "48d23dda107d7c938748163dac837db764af68b2",
+  "Entropy": 3.5192475,
+  "Author": "Vlad Kryvorot",
+  "Email": "vkr@empat.tech",
+  "Date": "2026-11-21T13:12:12Z",
+  "Message": "chore: vendor DVWA upstream @ 502ac15 (без змін)\n\nДжерело: https://github.com/digininja/DVWA, коміт 502ac150ce37c20ca6e04cab7c5ca959f315f2d0 (2026-11-17).\nКод скопійовано без змін, щоб git diff показував лише виправлення РГР.\n\nCo-Authored-By: Claude Opus 5.5 \u003cnoreply@anthropic.com\u003e",
+  "Tags": [],
+  "Fingerprint": "48d23dda107d7c938748163dac837db764af68b2:dvwa/vulnerabilities/csrf/help/help.php:generic-api-key:54"
+ }
+]

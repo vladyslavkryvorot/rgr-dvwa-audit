@@ -1,0 +1,60 @@
+rule,path,line,severity,cwe
+tainted-filename,dvwa/instructions.php,26,WARNING,CWE-918: Server-Side Request Forgery (SSRF)
+phpinfo-use,dvwa/phpinfo.php,8,ERROR,CWE-200: Exposure of Sensitive Information to an Unauthorized Actor
+tainted-exec,dvwa/vulnerabilities/api/src/HealthController.php,88,WARNING,CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')
+tainted-sql-string,dvwa/vulnerabilities/bac/source/low.php,22,ERROR,CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')
+tainted-sql-string,dvwa/vulnerabilities/bac/source/low.php,35,ERROR,CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')
+tainted-sql-string,dvwa/vulnerabilities/bac/source/low.php,79,ERROR,CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')
+tainted-sql-string,dvwa/vulnerabilities/bac/source/medium.php,21,ERROR,CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')
+tainted-sql-string,dvwa/vulnerabilities/bac/source/medium.php,28,ERROR,CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')
+tainted-sql-string,dvwa/vulnerabilities/bac/source/medium.php,71,ERROR,CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')
+tainted-sql-string,dvwa/vulnerabilities/brute/source/low.php,12,ERROR,CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')
+echoed-request,dvwa/vulnerabilities/csp/source/jsonp.php,12,ERROR,CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')
+tainted-exec,dvwa/vulnerabilities/exec/source/high.php,26,WARNING,CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')
+tainted-exec,dvwa/vulnerabilities/exec/source/high.php,26,ERROR,CWE-94: Improper Control of Generation of Code ('Code Injection')
+tainted-exec,dvwa/vulnerabilities/exec/source/high.php,30,WARNING,CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')
+tainted-exec,dvwa/vulnerabilities/exec/source/high.php,30,ERROR,CWE-94: Improper Control of Generation of Code ('Code Injection')
+tainted-exec,dvwa/vulnerabilities/exec/source/impossible.php,22,WARNING,CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')
+tainted-exec,dvwa/vulnerabilities/exec/source/impossible.php,22,ERROR,CWE-94: Improper Control of Generation of Code ('Code Injection')
+tainted-exec,dvwa/vulnerabilities/exec/source/impossible.php,26,WARNING,CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')
+tainted-exec,dvwa/vulnerabilities/exec/source/impossible.php,26,ERROR,CWE-94: Improper Control of Generation of Code ('Code Injection')
+tainted-exec,dvwa/vulnerabilities/exec/source/low.php,10,WARNING,CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')
+tainted-exec,dvwa/vulnerabilities/exec/source/low.php,10,ERROR,CWE-94: Improper Control of Generation of Code ('Code Injection')
+tainted-exec,dvwa/vulnerabilities/exec/source/low.php,14,WARNING,CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')
+tainted-exec,dvwa/vulnerabilities/exec/source/low.php,14,ERROR,CWE-94: Improper Control of Generation of Code ('Code Injection')
+tainted-exec,dvwa/vulnerabilities/exec/source/medium.php,19,WARNING,CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')
+tainted-exec,dvwa/vulnerabilities/exec/source/medium.php,19,ERROR,CWE-94: Improper Control of Generation of Code ('Code Injection')
+tainted-exec,dvwa/vulnerabilities/exec/source/medium.php,23,WARNING,CWE-78: Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')
+tainted-exec,dvwa/vulnerabilities/exec/source/medium.php,23,ERROR,CWE-94: Improper Control of Generation of Code ('Code Injection')
+rgr-v8-include-dynamic-path,dvwa/vulnerabilities/fi/index.php,36,WARNING,CWE-98: Improper Control of Filename for Include/Require Statement in PHP Program
+rgr-v8-include-request-param,dvwa/vulnerabilities/fi/source/high.php,4,ERROR,CWE-98: Improper Control of Filename for Include/Require Statement in PHP Program
+rgr-v8-fnmatch-path-allowlist,dvwa/vulnerabilities/fi/source/high.php,7,ERROR,CWE-22: Improper Limitation of a Pathname to a Restricted Directory
+tainted-filename,dvwa/vulnerabilities/fi/source/high.php,7,WARNING,CWE-918: Server-Side Request Forgery (SSRF)
+rgr-v8-include-request-param,dvwa/vulnerabilities/fi/source/low.php,4,ERROR,CWE-98: Improper Control of Filename for Include/Require Statement in PHP Program
+rgr-v8-include-request-param,dvwa/vulnerabilities/fi/source/medium.php,4,ERROR,CWE-98: Improper Control of Filename for Include/Require Statement in PHP Program
+rgr-v8-path-filter-str-replace,dvwa/vulnerabilities/fi/source/medium.php,8,ERROR,CWE-184: Incomplete List of Disallowed Inputs
+tainted-sql-string,dvwa/vulnerabilities/sqli/source/low.php,10,ERROR,CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')
+tainted-sql-string,dvwa/vulnerabilities/sqli/source/low.php,31,ERROR,CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')
+tainted-sql-string,dvwa/vulnerabilities/sqli_blind/source/high.php,11,ERROR,CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')
+tainted-sql-string,dvwa/vulnerabilities/sqli_blind/source/high.php,33,ERROR,CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')
+tainted-sql-string,dvwa/vulnerabilities/sqli_blind/source/low.php,11,ERROR,CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')
+tainted-sql-string,dvwa/vulnerabilities/sqli_blind/source/low.php,32,ERROR,CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')
+tainted-sql-string,dvwa/vulnerabilities/sqli_blind/source/medium.php,34,ERROR,CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')
+rgr-v8-upload-client-filename,dvwa/vulnerabilities/upload/source/high.php,20,ERROR,CWE-434: Unrestricted Upload of File with Dangerous Type
+rgr-v8-response-discloses-path,dvwa/vulnerabilities/upload/source/high.php,26,INFO,CWE-209: Generation of Error Message Containing Sensitive Information
+rgr-v8-upload-trusts-client-mime,dvwa/vulnerabilities/upload/source/impossible.php,11,ERROR,CWE-345: Insufficient Verification of Data Authenticity
+rgr-v8-response-discloses-path,dvwa/vulnerabilities/upload/source/impossible.php,45,INFO,CWE-209: Generation of Error Message Containing Sensitive Information
+rgr-v8-upload-client-filename,dvwa/vulnerabilities/upload/source/low.php,9,ERROR,CWE-434: Unrestricted Upload of File with Dangerous Type
+rgr-v8-response-discloses-path,dvwa/vulnerabilities/upload/source/low.php,15,INFO,CWE-209: Generation of Error Message Containing Sensitive Information
+rgr-v8-upload-trusts-client-mime,dvwa/vulnerabilities/upload/source/medium.php,10,ERROR,CWE-345: Insufficient Verification of Data Authenticity
+rgr-v8-upload-client-filename,dvwa/vulnerabilities/upload/source/medium.php,18,ERROR,CWE-434: Unrestricted Upload of File with Dangerous Type
+rgr-v8-response-discloses-path,dvwa/vulnerabilities/upload/source/medium.php,24,INFO,CWE-209: Generation of Error Message Containing Sensitive Information
+tainted-filename,dvwa/vulnerabilities/view_help.php,20,WARNING,CWE-918: Server-Side Request Forgery (SSRF)
+tainted-filename,dvwa/vulnerabilities/view_help.php,22,WARNING,CWE-918: Server-Side Request Forgery (SSRF)
+tainted-filename,dvwa/vulnerabilities/view_source.php,63,WARNING,CWE-918: Server-Side Request Forgery (SSRF)
+tainted-filename,dvwa/vulnerabilities/view_source.php,67,WARNING,CWE-918: Server-Side Request Forgery (SSRF)
+tainted-filename,dvwa/vulnerabilities/view_source.php,68,WARNING,CWE-918: Server-Side Request Forgery (SSRF)
+tainted-filename,dvwa/vulnerabilities/view_source_all.php,14,WARNING,CWE-918: Server-Side Request Forgery (SSRF)
+tainted-filename,dvwa/vulnerabilities/view_source_all.php,18,WARNING,CWE-918: Server-Side Request Forgery (SSRF)
+tainted-filename,dvwa/vulnerabilities/view_source_all.php,22,WARNING,CWE-918: Server-Side Request Forgery (SSRF)
+tainted-filename,dvwa/vulnerabilities/view_source_all.php,26,WARNING,CWE-918: Server-Side Request Forgery (SSRF)

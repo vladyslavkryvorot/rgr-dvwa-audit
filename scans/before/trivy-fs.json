@@ -1,0 +1,143 @@
+{
+  "SchemaVersion": 2,
+  "CreatedAt": "2026-11-21T13:20:57.938999372Z",
+  "ArtifactName": "/src/dvwa",
+  "ArtifactType": "filesystem",
+  "Results": [
+    {
+      "Target": "vulnerabilities/api/composer.lock",
+      "Class": "lang-pkgs",
+      "Type": "composer",
+      "Packages": [
+        {
+          "ID": "zircote/swagger-php@4.11.1",
+          "Name": "zircote/swagger-php",
+          "Identifier": {
+            "PURL": "pkg:composer/zircote/swagger-php@4.11.1",
+            "UID": "b55a14bb06bf1d5"
+          },
+          "Version": "4.11.1",
+          "Licenses": [
+            "Apache-2.0"
+          ],
+          "Relationship": "direct",
+          "DependsOn": [
+            "psr/log@3.0.2",
+            "symfony/deprecation-contracts@v3.8.1",
+            "symfony/finder@v7.2.2",
+            "symfony/yaml@v8.1.11"
+          ],
+          "Locations": [
+            {
+              "StartLine": 353,
+              "EndLine": 433
+            }
+          ]
+        },
+        {
+          "ID": "psr/log@3.0.2",
+          "Name": "psr/log",
+          "Identifier": {
+            "PURL": "pkg:composer/psr/log@3.0.2",
+            "UID": "1ccf58308e21e62c"
+          },
+          "Version": "3.0.2",
+          "Licenses": [
+            "MIT"
+          ],
+          "Indirect": true,
+          "Relationship": "indirect",
+          "Locations": [
+            {
+              "StartLine": 9,
+              "EndLine": 58
+            }
+          ]
+        },
+        {
+          "ID": "symfony/deprecation-contracts@v3.8.1",
+          "Name": "symfony/deprecation-contracts",
+          "Identifier": {
+            "PURL": "pkg:composer/symfony/deprecation-contracts@v3.8.1",
+            "UID": "3116eeeccdb93f7a"
+          },
+          "Version": "v3.8.1",
+          "Licenses": [
+            "MIT"
+          ],
+          "Indirect": true,
+          "Relationship": "indirect",
+          "Locations": [
+            {
+              "StartLine": 59,
+              "EndLine": 129
+            }
+          ]
+        },
+        {
+          "ID": "symfony/finder@v7.2.2",
+          "Name": "symfony/finder",
+          "Identifier": {
+            "PURL": "pkg:composer/symfony/finder@v7.2.2",
+            "UID": "dc76c7ed32d7f39c"
+          },
+          "Version": "v7.2.2",
+          "Licenses": [
+            "MIT"
+          ],
+          "Indirect": true,
+          "Relationship": "indirect",
+          "Locations": [
+            {
+              "StartLine": 130,
+              "EndLine": 193
+            }
+          ]
+        },
+        {
+          "ID": "symfony/polyfill-ctype@v1.37.0",
+          "Name": "symfony/polyfill-ctype",
+          "Identifier": {
+            "PURL": "pkg:composer/symfony/polyfill-ctype@v1.37.0",
+            "UID": "d21e89b598933479"
+          },
+          "Version": "v1.37.0",
+          "Licenses": [
+            "MIT"
+          ],
+          "Indirect": true,
+          "Relationship": "indirect",
+          "Locations": [
+            {
+              "StartLine": 194,
+              "EndLine": 276
+            }
+          ]
+        },
+        {
+          "ID": "symfony/yaml@v8.1.11",
+          "Name": "symfony/yaml",
+          "Identifier": {
+            "PURL": "pkg:composer/symfony/yaml@v8.1.11",
+            "UID": "f9d36db4f3b03b19"
+          },
+          "Version": "v8.1.11",
+          "Licenses": [
+            "MIT"
+          ],
+          "Indirect": true,
+          "Relationship": "indirect",
+          "DependsOn": [
+            "symfony/polyfill-ctype@v1.37.0"
+          ],
+          "Locations": [
+            {
+              "StartLine": 277,
+              "EndLine": 352
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

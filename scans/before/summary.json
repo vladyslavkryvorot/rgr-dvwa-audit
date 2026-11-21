@@ -1,0 +1,84 @@
+{
+  "semgrep_all": {
+    "total": 59,
+    "by_severity": {
+      "WARNING": 21,
+      "ERROR": 34,
+      "INFO": 4
+    },
+    "profile_total": 16,
+    "by_rule_profile": {
+      "rgr-v8-include-dynamic-path": 1,
+      "rgr-v8-include-request-param": 3,
+      "rgr-v8-fnmatch-path-allowlist": 1,
+      "tainted-filename": 1,
+      "rgr-v8-path-filter-str-replace": 1,
+      "rgr-v8-upload-client-filename": 3,
+      "rgr-v8-response-discloses-path": 4,
+      "rgr-v8-upload-trusts-client-mime": 2
+    },
+    "errors": 2
+  },
+  "semgrep_custom": {
+    "total": 15,
+    "by_severity": {
+      "WARNING": 1,
+      "ERROR": 10,
+      "INFO": 4
+    },
+    "profile_total": 15,
+    "by_rule_profile": {
+      "rgr-v8-include-dynamic-path": 1,
+      "rgr-v8-include-request-param": 3,
+      "rgr-v8-fnmatch-path-allowlist": 1,
+      "rgr-v8-path-filter-str-replace": 1,
+      "rgr-v8-upload-client-filename": 3,
+      "rgr-v8-response-discloses-path": 4,
+      "rgr-v8-upload-trusts-client-mime": 2
+    },
+    "errors": 0
+  },
+  "trivy_fs": {
+    "total": 0,
+    "by_severity": {},
+    "by_target": {},
+    "max_cvss3": 0
+  },
+  "trivy_image": {
+    "total": 1753,
+    "by_severity": {
+      "LOW": 917,
+      "HIGH": 164,
+      "MEDIUM": 649,
+      "UNKNOWN": 22,
+      "CRITICAL": 1
+    },
+    "by_target": {
+      "/image.tar (debian 13.7)": 1753
+    },
+    "max_cvss3": 9.8
+  },
+  "sbom": {
+    "format": "CycloneDX",
+    "spec": "1.6",
+    "components": 205
+  },
+  "gitleaks_git": {
+    "total": 1,
+    "by_rule": {
+      "generic-api-key": 1
+    },
+    "files": [
+      "dvwa/vulnerabilities/csrf/help/help.php"
+    ]
+  },
+  "gitleaks_dir": {
+    "total": 1,
+    "by_rule": {
+      "generic-api-key": 1
+    },
+    "files": [
+      "/repo/dvwa/vulnerabilities/csrf/help/help.php"
+    ]
+  }
+}

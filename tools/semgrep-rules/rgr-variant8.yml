@@ -1,0 +1,120 @@
+# Власні правила Semgrep для профілю варіанта 8 (завантаження файлів і обхід каталогів).
+# Формат — як у lab06_cicd/rules/insecure_patterns.yml курсу. Префікс id: rgr-v8-.
+rules:
+  - id: rgr-v8-upload-client-filename
+    languages: [php]
+    severity: ERROR
+    message: >-
+      Шлях призначення для move_uploaded_file() будується з імені файлу, яке надіслав клієнт
+      ($_FILES[...]['name']). Розширення, і зокрема .php та .htaccess, контролює порушник (CWE-434).
+      Генеруйте ім'я на сервері, а розширення беріть з allowlist.
+    metadata:
+      cwe: "CWE-434: Unrestricted Upload of File with Dangerous Type"
+      owasp: "A04:2021 - Insecure Design"
+      profile: variant-8
+    mode: taint
+    pattern-sources:
+      - pattern: $_FILES[$F]['name']
+    pattern-sinks:
+      - patterns:
+          - pattern-inside: move_uploaded_file($TMP, $DEST)
+          - focus-metavariable: $DEST
+
+  - id: rgr-v8-upload-trusts-client-mime
+    languages: [php]
+    severity: ERROR
+    message: >-
+      Тип файлу береться з $_FILES[...]['type'], тобто із заголовка Content-Type, який задає клієнт.
+      Порушник легко його підробляє (CWE-345, CWE-434). Визначайте тип за вмістом (finfo) на сервері.
+    metadata:
+      cwe: "CWE-345: Insufficient Verification of Data Authenticity"
+      profile: variant-8
+    pattern: $_FILES[$F]['type']
+
+  - id: rgr-v8-include-request-param
+    languages: [php]
+    severity: ERROR
+    message: >-
+      Параметр запиту використовується як шлях до файлу для include/require без канонізації
+      (CWE-98, CWE-22). Застосовуйте allowlist або realpath() з перевіркою базового каталогу.
+    metadata:
+      cwe: "CWE-98: Improper Control of Filename for Include/Require Statement in PHP Program"
+      profile: variant-8
+    patterns:
+      - pattern-either:
+          - pattern: $FILE = $_GET[$P];
+          - pattern: $FILE = $_REQUEST[$P];
+      - metavariable-regex:
+          metavariable: $FILE
+          regex: ^\$file$
+      - pattern-not-inside: |
+          $FILE = $_GET[$P];
+          ...
+          if (!in_array($FILE, $ALLOW)) { ... }
+      - pattern-not-inside: |
+          $FILE = $_GET[$P];
+          ...
+          $FILE = SafePath::resolve(...);
+
+  - id: rgr-v8-include-dynamic-path
+    languages: [php]
+    severity: WARNING
+    message: >-
+      include/require з динамічним (не літеральним) шляхом. Перевірте, що значення не залежить від
+      даних користувача (CWE-98).
+    metadata:
+      cwe: "CWE-98: Improper Control of Filename for Include/Require Statement in PHP Program"
+      profile: variant-8
+    patterns:
+      - pattern-either:
+          - pattern: include $X;
+          - pattern: include_once $X;
+          - pattern: require $X;
+          - pattern: require_once $X;
+          - pattern: include($X);
+          - pattern: include_once($X);
+          - pattern: require($X);
+          - pattern: require_once($X);
+      - metavariable-regex:
+          metavariable: $X
+          regex: ^\$[a-zA-Z_]+$
+
+  - id: rgr-v8-path-filter-str-replace
+    languages: [php]
+    severity: ERROR
+    message: >-
+      Фільтрація обходу каталогів через str_replace("../", ...) неповна: «....//» після заміни
+      перетворюється на «../», а абсолютні шляхи взагалі не фільтруються (CWE-184, CWE-22).
+    metadata:
+      cwe: "CWE-184: Incomplete List of Disallowed Inputs"
+      profile: variant-8
+    pattern-either:
+      - pattern: str_replace(array(..., "../", ...), $R, $S)
+      - pattern: str_replace([..., "../", ...], $R, $S)
+      - pattern: str_replace("../", $R, $S)
+
+  - id: rgr-v8-fnmatch-path-allowlist
+    languages: [php]
+    severity: ERROR
+    message: >-
+      Перевірка шляху шаблоном fnmatch("file*") пропускає обгортку file:///… і довільний абсолютний
+      шлях (CWE-22). Порівнюйте з точним allowlist імен.
+    metadata:
+      cwe: "CWE-22: Improper Limitation of a Pathname to a Restricted Directory"
+      profile: variant-8
+    patterns:
+      - pattern: fnmatch("$PAT", $X)
+      - metavariable-regex:
+          metavariable: $PAT
+          regex: .*\*$
+
+  - id: rgr-v8-response-discloses-path
+    languages: [php]
+    severity: INFO
+    message: >-
+      У HTML-відповідь потрапляє внутрішній шлях збереження файлу (CWE-209). Повідомляйте користувачу
+      лише публічний ідентифікатор.
+    metadata:
+      cwe: "CWE-209: Generation of Error Message Containing Sensitive Information"
+      profile: variant-8
+    pattern: $HTML .= "...{$target_path}...";
