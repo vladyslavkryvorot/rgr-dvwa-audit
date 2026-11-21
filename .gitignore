@@ -8,3 +8,4 @@ __pycache__/
 /scans/tmp/
 report/build/
 scans/*.log
+report/build/
