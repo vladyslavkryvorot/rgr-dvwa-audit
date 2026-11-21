@@ -7,3 +7,4 @@ __pycache__/
 .phpunit.result.cache
 /scans/tmp/
 report/build/
+scans/*.log

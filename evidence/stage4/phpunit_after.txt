@@ -1,0 +1,65 @@
+PHPUnit 11.5.58 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.4.28
+Configuration: /app/phpunit.xml
+
+...................................................               51 / 51 (100%)
+
+Time: 00:00.010, Memory: 8.00 MB
+
+Safe Path
+ ✔ Allowed pages resolve to files inside module
+ ✔ Attack vectors are rejected with data set "V4 relative traversal"
+ ✔ Attack vectors are rejected with data set "V5 nested ....//"
+ ✔ Attack vectors are rejected with data set "V5 absolute path"
+ ✔ Attack vectors are rejected with data set "V6 file:// wrapper"
+ ✔ Attack vectors are rejected with data set "V3 file:// to upload"
+ ✔ Attack vectors are rejected with data set "php://filter source leak"
+ ✔ Attack vectors are rejected with data set "data: wrapper"
+ ✔ Attack vectors are rejected with data set "remote http"
+ ✔ Attack vectors are rejected with data set "zip/phar wrapper"
+ ✔ Attack vectors are rejected with data set "url-encoded traversal"
+ ✔ Attack vectors are rejected with data set "NUL byte"
+ ✔ Attack vectors are rejected with data set "backslash traversal"
+ ✔ Attack vectors are rejected with data set "allowlisted name after ../"
+ ✔ Attack vectors are rejected with data set "dot segment"
+ ✔ Attack vectors are rejected with data set "hidden bonus file4"
+ ✔ Attack vectors are rejected with data set "case variation"
+ ✔ Attack vectors are rejected with data set "trailing slash"
+ ✔ Attack vectors are rejected with data set "empty"
+ ✔ Attack vectors are rejected with data set "home dir"
+ ✔ Allowlist entry that escapes base is still rejected
+ ✔ Within rejects symlink escaping base
+ ✔ Module id validation with data set "existing module"
+ ✔ Module id validation with data set "V8 traversal"
+ ✔ Module id validation with data set "V9 locale traversal"
+ ✔ Module id validation with data set "missing module"
+ ✔ Module id validation with data set "uppercase"
+ ✔ Module id validation with data set "xss"
+ ✔ Security level is exact allowlist
+
+Safe Upload
+ ✔ Valid png is stored under random name without internal path
+ ✔ Valid jpeg is stored as jpg
+ ✔ Same client name never overwrites
+ ✔ Malicious files are rejected and nothing is written with data set "V1 plain .php"
+ ✔ Malicious files are rejected and nothing is written with data set "V2 .php with image Content-Type"
+ ✔ Malicious files are rejected and nothing is written with data set "V3 GIF polyglot named .jpg"
+ ✔ Malicious files are rejected and nothing is written with data set "V7 .htaccess"
+ ✔ Malicious files are rejected and nothing is written with data set "V7 custom extension"
+ ✔ Malicious files are rejected and nothing is written with data set "double extension .php.png (text)"
+ ✔ Malicious files are rejected and nothing is written with data set "alternative PHP extension .phtml"
+ ✔ Malicious files are rejected and nothing is written with data set ".phar"
+ ✔ Malicious files are rejected and nothing is written with data set "PNG content named .jpg (mismatch)"
+ ✔ Malicious files are rejected and nothing is written with data set "JPEG content named .png (mismatch)"
+ ✔ Malicious files are rejected and nothing is written with data set "GIF named .png"
+ ✔ Malicious files are rejected and nothing is written with data set "SVG with script"
+ ✔ Malicious files are rejected and nothing is written with data set "truncated PNG header"
+ ✔ Malicious files are rejected and nothing is written with data set "empty file"
+ ✔ Malicious files are rejected and nothing is written with data set "no extension"
+ ✔ Php appended to real jpeg is destroyed by reencoding
+ ✔ Oversized file is rejected
+ ✔ Decompression bomb dimensions are rejected
+ ✔ Upload error and non uploaded file are rejected
+
+OK (51 tests, 117 assertions)

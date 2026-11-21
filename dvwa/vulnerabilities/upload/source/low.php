@@ -1,19 +1,13 @@
 <?php
 
-if( isset( $_POST[ 'Upload' ] ) ) {
-	// Where are we going to be writing to?
-	$target_path  = DVWA_WEB_PAGE_TO_ROOT . "hackable/uploads/";
-	$target_path .= basename( $_FILES[ 'uploaded' ][ 'name' ] );
+// РГР, варіант 8 — виправлення V1 (low), V2 (medium), V3 (high), V7 (.htaccess), T7, T9.
+// Рівень безпеки задає клієнтська cookie «security» (загроза T12), тому всі рівні
+// використовують одну безпечну реалізацію SafeUpload (dvwa/includes/SafeUpload.php).
+require_once DVWA_WEB_PAGE_TO_ROOT . 'dvwa/includes/SafeUpload.php';
 
-	// Can we move the file to the upload folder?
-	if( !move_uploaded_file( $_FILES[ 'uploaded' ][ 'tmp_name' ], $target_path ) ) {
-		// No
-		$html .= '<pre>Your image was not uploaded.</pre>';
-	}
-	else {
-		// Yes!
-		$html .= "<pre>{$target_path} succesfully uploaded!</pre>";
-	}
+if( isset( $_POST[ 'Upload' ] ) && isset( $_FILES[ 'uploaded' ] ) && is_array( $_FILES[ 'uploaded' ] ) ) {
+	[ $uploadOk, $uploadMessage ] = SafeUpload::store( $_FILES[ 'uploaded' ], DVWA_WEB_PAGE_TO_ROOT . 'hackable/uploads' );
+	$html .= '<pre>' . htmlspecialchars( $uploadMessage, ENT_QUOTES, 'UTF-8' ) . '</pre>';
 }
 
 ?>

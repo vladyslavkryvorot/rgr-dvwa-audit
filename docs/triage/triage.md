@@ -83,3 +83,16 @@ SBOM: CycloneDX 1.6, 205 компонентів (`scans/before/sbom.cdx.json`).
 | Semgrep (реєстр) | 44 | 30 (з них 4 TP-н) | 14 | 32 % |
 | Trivy (ОС-пакети) | 1753 | 58 з виправленням (до оновлення) | 1 CRITICAL за досяжністю | — |
 | gitleaks | 1 | 0 | 1 | 100 % (+1 FN) |
+
+## 7. Тріаж залишкових знахідок після виправлень (`scans/after/`)
+
+| Знахідка | К-сть | Вердикт | Обґрунтування |
+|---|---|---|---|
+| rgr-v8-upload-trusts-client-mime, upload/source/impossible.php:11 | 1 | FP (прийнято в базову лінію) | Без змін відносно S5. Еталонний рівень DVWA перекодовує файл, тож клієнтський тип лише доповнює перевірку |
+| rgr-v8-response-discloses-path, upload/source/impossible.php:45 | 1 | FP (прийнято в базову лінію) | Без змін відносно S9. Виводиться лише публічний URL |
+| tainted-filename, view_source.php:63–68 | 3 | FP після виправлення | Правило реєстру не розпізнає `SafePath::isModuleId()` / `isSecurityLevel()` як санітизацію. Те, що V8 більше не відтворюється, доведено регресійним тестом `V8` |
+| tainted-filename, view_help.php:31 | 1 | FP після виправлення | Шлях `$helpFile` повертає `SafePath::within()` після allowlist. Доведено тестом `V9` |
+| tainted-filename, view_source_all.php, instructions.php | 5 | FP | Без змін відносно S22–S26 |
+| Решта знахідок реєстру поза профілем | 33 | без змін | Поза обсягом РГР; рекомендації — розділ 5 звіту |
+| Trivy: 1695 CVE ОС-пакетів без виправлення в Debian | 1695 | прийнято, з моніторингом | Виправлень у дистрибутиві немає (`affected`/`will_not_fix`); `apt-get upgrade` закрив усі 58 CVE з виправленнями |
+| gitleaks: 1894 `sourcegraph-access-token` у `scans/before/trivy-image.json` | 0 після allowlist | FP | Шістнадцяткові ідентифікатори у JSON-звіті Trivy. Каталог звітів `scans/` винесено в allowlist `.gitleaks.toml` |

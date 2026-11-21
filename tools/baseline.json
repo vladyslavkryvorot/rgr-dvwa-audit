@@ -1,0 +1,4 @@
+{
+  "0f90637d78ced6a7": "rgr-v8-upload-trusts-client-mime dvwa/vulnerabilities/upload/source/impossible.php:11",
+  "2debf6f9e4d6fc0b": "rgr-v8-response-discloses-path dvwa/vulnerabilities/upload/source/impossible.php:45"
+}

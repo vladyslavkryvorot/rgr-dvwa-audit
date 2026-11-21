@@ -1,0 +1,16 @@
+# V4. Обхід каталогів ../ у параметрі page
+
+Рівень безпеки DVWA: low
+
+Результат: заблоковано (HTTP 200)
+
+
+
+### GET ?page=../../../../../../etc/passwd
+>>> GET http://127.0.0.1:8081/vulnerabilities/fi/?page=..%2F..%2F..%2F..%2F..%2F..%2Fetc%2Fpasswd
+>>> Cookie: security=low; PHPSESSID=e9e92ecdb0f56af79907e430ca433b70
+<<< HTTP 200 OK
+<<< Content-Type: text/html; charset=UTF-8
+<<< Content-Length: 22
+<<< (фрагмент тіла; HTML-теги прибрано для читабельності)
+ERROR: File not found!

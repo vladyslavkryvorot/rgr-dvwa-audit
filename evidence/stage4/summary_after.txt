@@ -1,0 +1,12 @@
+V   рівень      результат       назва
+V1  low         заблоковано     Необмежене завантаження .php → RCE — HTTP 403
+V2  medium      заблоковано     Обхід перевірки Content-Type → RCE — HTTP 403
+V3  high        заблоковано     Поліглот GIF+PHP (.jpg) + LFI через file:// → RCE — HTTP 200
+V4  low         заблоковано     Обхід каталогів ../ у параметрі page — HTTP 200
+V5  medium      заблоковано     Обхід фільтра str_replace через ....// — HTTP 200
+V6  high        заблоковано     Обхід fnmatch('file*') через file:// — HTTP 200
+V7  medium      заблоковано     .htaccess у каталозі завантажень змінює обробник → RCE — HTTP 404
+V8  impossible  заблоковано     Обхід каталогів у view_source.php → код config.inc.php (пароль БД) — HTTP 200
+V9  impossible  заблоковано     Обхід каталогів у view_help.php → eval() довільного .php — HTTP 200
+
+Експлуатовано: 0/9

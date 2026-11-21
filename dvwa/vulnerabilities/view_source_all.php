@@ -2,13 +2,16 @@
 
 define('DVWA_WEB_PAGE_TO_ROOT', '../');
 require_once DVWA_WEB_PAGE_TO_ROOT . 'dvwa/includes/dvwaPage.inc.php';
+require_once DVWA_WEB_PAGE_TO_ROOT . 'dvwa/includes/SafePath.php';
 
 dvwaPageStartup(array('authenticated'));
 
 $page = dvwaPageNewGrab();
 $page['title'] = 'Source' . $page['title_separator'] . $page['title'];
 
-if (array_key_exists("id", $_GET)) {
+// РГР: глибокий захист — id лише як ідентифікатор наявного модуля.
+if (array_key_exists("id", $_GET) && is_string($_GET['id'])
+	&& SafePath::isModuleId($_GET['id'], DVWA_WEB_PAGE_TO_ROOT . 'vulnerabilities', 'source')) {
 	$id = $_GET['id'];
 
 	$lowsrc = @file_get_contents("./{$id}/source/low.php");

@@ -33,7 +33,8 @@ require_once DVWA_WEB_PAGE_TO_ROOT . "vulnerabilities/fi/source/{$vulnerabilityF
 
 // if( count( $_GET ) )
 if( isset( $file ) )
-	include( $file );
+	// РГР: $file повертає SafePath::resolveInclude() (allowlist + realpath) — див. fi/source/*.php
+	include( $file ); // nosemgrep: rgr-v8-include-dynamic-path
 else {
 	header( 'Location:?page=include.php' );
 	exit;

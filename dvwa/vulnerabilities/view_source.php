@@ -2,13 +2,18 @@
 
 define( 'DVWA_WEB_PAGE_TO_ROOT', '../' );
 require_once DVWA_WEB_PAGE_TO_ROOT . 'dvwa/includes/dvwaPage.inc.php';
+require_once DVWA_WEB_PAGE_TO_ROOT . 'dvwa/includes/SafePath.php';
 
 dvwaPageStartup( array( 'authenticated' ) );
 
 $page = dvwaPageNewGrab();
 $page[ 'title' ] .= 'Source' . $page[ 'title_separator' ].$page[ 'title' ];
 
-if (array_key_exists ("id", $_GET) && array_key_exists ("security", $_GET)) {
+// РГР V8: id і security потрапляють у шлях file_get_contents() — лише точні значення (CWE-22).
+if (array_key_exists ("id", $_GET) && array_key_exists ("security", $_GET)
+	&& is_string( $_GET[ 'id' ] ) && is_string( $_GET[ 'security' ] )
+	&& SafePath::isModuleId( $_GET[ 'id' ], DVWA_WEB_PAGE_TO_ROOT . 'vulnerabilities', 'source' )
+	&& SafePath::isSecurityLevel( $_GET[ 'security' ] )) {
 	$id       = $_GET[ 'id' ];
 	$security = $_GET[ 'security' ];
 

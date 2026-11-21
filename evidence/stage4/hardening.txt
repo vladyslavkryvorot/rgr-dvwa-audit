@@ -1,0 +1,12 @@
+# Шари глибокого захисту (2026-11-21T13:33:08Z), стенд http://127.0.0.1:8081
+OK   Apache: .php у uploads не віддається і не виконується (V1/V2) очікується: 403            фактично: 403
+OK   Apache: .htaccess у uploads ігнорується, код не виконується (V7) очікується: *7\*191*       фактично: <?php echo 7*191;
+OK   Apache: сам .htaccess не віддається                       очікується: 403            фактично: 403
+OK   Apache: nosniff для uploads                                           очікується: *nosniff*      фактично: X-Content-Type-Options: nosniff
+OK   PHP: open_basedir блокує /etc/passwd (V4–V6)                     очікується: *open_basedir* фактично: [21-Nov-2026 13:33:08 UTC] PHP Warning:  readfile(): open_basedir restriction in effect. File(/etc/passwd) is not within the allowed path(s): (/var/www/html:/tmp) in Command line code on line 1
+OK   PHP: allow_url_include вимкнено (T6)                             очікується:                фактично: 
+OK   PHP: display_errors вимкнено (T9)                                очікується:                фактично: 
+OK   PHP: заголовок X-Powered-By відсутній                  очікується:                фактично: 
+OK   ФС: www-data не може змінити код застосунку (T16) очікується: *Permission denied* фактично: sh: 1: cannot create /var/www/html/index.php: Permission denied
+OK   ФС: www-data не може змінити config.inc.php               очікується: *Permission denied* фактично: sh: 1: cannot create /var/www/html/config/config.inc.php: Permission denied
+OK   Мережа: контейнер dvwa без маршруту назовні очікується: *unreachable*  фактично: ping: connect: Network is unreachable

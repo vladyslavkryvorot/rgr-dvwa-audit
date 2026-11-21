@@ -42,9 +42,9 @@ docker run --rm -v "$TAR:/image.tar:ro" -v rgr-trivy-cache:/root/.cache "$TRIVY_
 rm -f "$TAR"
 
 echo "== [secrets] gitleaks: історія git і робоче дерево"
-docker run --rm -v "$ROOT:/repo" -w /repo "$GITLEAKS_IMG" git /repo --redact --no-banner \
+docker run --rm -v "$ROOT:/repo" -w /repo "$GITLEAKS_IMG" git /repo --config /repo/.gitleaks.toml --redact --no-banner \
   --report-format json --report-path "scans/$STAGE/gitleaks-git.json" --exit-code 0 || true
-docker run --rm -v "$ROOT:/repo" -w /repo "$GITLEAKS_IMG" dir /repo/dvwa --redact --no-banner \
+docker run --rm -v "$ROOT:/repo" -w /repo "$GITLEAKS_IMG" dir /repo/dvwa --config /repo/.gitleaks.toml --redact --no-banner \
   --report-format json --report-path "scans/$STAGE/gitleaks-dir.json" --exit-code 0 || true
 
 echo "== Підсумок"

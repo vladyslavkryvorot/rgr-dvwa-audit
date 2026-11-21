@@ -1,0 +1,19 @@
+# V9. Обхід каталогів у view_help.php → eval() довільного .php
+
+Рівень безпеки DVWA: impossible
+
+Результат: заблоковано (HTTP 200)
+
+
+
+### GET view_help.php?id=fi&security=low&locale=x/../../../../phpinfo
+>>> GET http://127.0.0.1:8081/vulnerabilities/view_help.php?id=fi&security=low&locale=x%2F..%2F..%2F..%2F..%2Fphpinfo
+>>> Cookie: security=impossible; PHPSESSID=2a7f2815cb5113a2aa527974139d0804
+<<< HTTP 200 OK
+<<< Content-Type: text/html;charset=utf-8
+<<< Content-Length: 371
+<<< (фрагмент тіла; HTML-теги прибрано для читабельності)
+
+		Help :: Damn Vulnerable Web Application (DVWA)
+	Not Found
+

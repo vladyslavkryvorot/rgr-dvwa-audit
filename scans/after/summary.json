@@ -1,0 +1,64 @@
+{
+  "semgrep_all": {
+    "total": 44,
+    "by_severity": {
+      "WARNING": 18,
+      "ERROR": 25,
+      "INFO": 1
+    },
+    "profile_total": 2,
+    "by_rule_profile": {
+      "rgr-v8-upload-trusts-client-mime": 1,
+      "rgr-v8-response-discloses-path": 1
+    },
+    "errors": 2
+  },
+  "semgrep_custom": {
+    "total": 2,
+    "by_severity": {
+      "ERROR": 1,
+      "INFO": 1
+    },
+    "profile_total": 2,
+    "by_rule_profile": {
+      "rgr-v8-upload-trusts-client-mime": 1,
+      "rgr-v8-response-discloses-path": 1
+    },
+    "errors": 0
+  },
+  "trivy_fs": {
+    "total": 0,
+    "by_severity": {},
+    "by_target": {},
+    "max_cvss3": 0
+  },
+  "trivy_image": {
+    "total": 1695,
+    "by_severity": {
+      "LOW": 913,
+      "HIGH": 164,
+      "MEDIUM": 595,
+      "UNKNOWN": 22,
+      "CRITICAL": 1
+    },
+    "by_target": {
+      "/image.tar (debian 13.8)": 1695
+    },
+    "max_cvss3": 9.8
+  },
+  "sbom": {
+    "format": "CycloneDX",
+    "spec": "1.6",
+    "components": 205
+  },
+  "gitleaks_git": {
+    "total": 0,
+    "by_rule": {},
+    "files": []
+  },
+  "gitleaks_dir": {
+    "total": 0,
+    "by_rule": {},
+    "files": []
+  }
+}
